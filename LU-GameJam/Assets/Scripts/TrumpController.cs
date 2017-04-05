@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrumpController : MonoBehaviour {
+public class TrumpController : MonoBehaviour
+{
     private int direction = -1;
-    private int speed = 5;
+    private int movemenSpeed = 5;
     private Rigidbody2D rb2d;
-    public Transform explosion;
-    public Transform projectileTransform;
-    private float lastShotTime;
-    public Transform player;
     private int health = 50;
+    private float lastShotTime;
+    // explosion animation
+    public Transform explosion;
+    // bullet prefab
+    public Transform projectileTransform;
+    public Transform player;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         rb2d = GetComponent<Rigidbody2D>();
         lastShotTime = Time.time;
     }
@@ -21,13 +25,13 @@ public class TrumpController : MonoBehaviour {
     void FixedUpdate()
     {
         double firingTime = 1.0;
-        Vector2 movement = new Vector2(1, 0);        
-        rb2d.velocity = movement * speed * direction;
+        Vector2 movement = new Vector2(1, 0);
+        rb2d.velocity = movement * movemenSpeed * direction;
 
         if (Time.time > (firingTime + lastShotTime))
         {
             // get normalized shooting direction
-            Vector2 shootingDirection = new Vector2(player.position.x - transform.position.x, player.position.y-transform.position.y);
+            Vector2 shootingDirection = new Vector2(player.position.x - transform.position.x, player.position.y - transform.position.y);
             shootingDirection.Normalize();
             Fire(shootingDirection);
             lastShotTime = Time.time;
@@ -59,7 +63,7 @@ public class TrumpController : MonoBehaviour {
             {
                 for (int n = 0; n < 10; n++)
                 {
-                    Instantiate(explosion, new Vector3(transform.position.x + Random.Range(-10.0f,10.0f), transform.position.y + Random.Range(-10.0f, 10.0f), 0), transform.rotation);
+                    Instantiate(explosion, new Vector3(transform.position.x + Random.Range(-10.0f, 10.0f), transform.position.y + Random.Range(-10.0f, 10.0f), 0), transform.rotation);
                 }
                 Destroy(other.gameObject);
                 Destroy(this.gameObject);
