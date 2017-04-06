@@ -3,9 +3,7 @@ using System.Collections;
 
 
 public class PlayerController : MonoBehaviour
-{
-    // get the textbox's script to call functions
-    private TextStuff textScript;
+{    
     // player rigidbody	
     private Rigidbody2D rb2d;
     // player animator
@@ -18,7 +16,8 @@ public class PlayerController : MonoBehaviour
     private int health = 3;
     // used to store when player was last hit
     private float lastHit;
-    public Transform textbox;
+    // get the textbox's script to call functions
+    public TextStuff textScript;
     // on death explosion
     public Transform explosion;
     // bullet prefab (set in the scene)
@@ -32,8 +31,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         lastShotTime = Time.time;
-        lastHit = Time.time;
-        textScript = textbox.GetComponent<TextStuff>();
+        lastHit = Time.time;        
         textScript.SetHealthText(health);
     }
 
