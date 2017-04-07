@@ -5,8 +5,7 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour {
     public Transform player;
     private Rigidbody2D rb2d;
-    public Transform textbox;
-    private TextStuff textScript;
+    public TextStuff textScript;
     public float movementSpeed;
     public Transform explosion;    
     private SpriteRenderer spriteRenderer;
@@ -17,8 +16,7 @@ public class EnemyController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         rb2d = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        textScript = textbox.GetComponent<TextStuff>();
+        spriteRenderer = GetComponent<SpriteRenderer>();        
         textScript.SetKillText(killCount);
     }
 	
@@ -45,7 +43,7 @@ public class EnemyController : MonoBehaviour {
         {
             killCount++;
             textScript.SetKillText(killCount);
-            if (killCount >= 10 && !donaldSpawned)
+            if (killCount >= 2 && !donaldSpawned)
             {
                 Transform instantiatedDonald = Instantiate(theDonald, new Vector3(0, (float)7.68, 0), transform.rotation);
                 TrumpController trumpScript = instantiatedDonald.GetComponent<TrumpController>();
