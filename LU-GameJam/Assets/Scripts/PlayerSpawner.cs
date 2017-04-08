@@ -2,44 +2,80 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSpawner : MonoBehaviour {
-    public GameObject player;
-    public Canvas UICanvas;
-    public Transform mainCamera;
+public class PlayerSpawner : MonoBehaviour {    
+    private CameraController _cameraScript;
+    private PlayerController _playerScript;
+    private Vector3 _startingPlayerPosition;
+    private Quaternion _startingPlayerRotation;
+    private Vector3 _startingCameraPosition;
+    private Quaternion _startingCameraRotation;
+    private GameObject _instantiatedPlayer;
+    private GameObject _player;
+    private Canvas _UICanvas;
+    private Transform _mainCamera;
 
-    private CameraController cameraScript;
-    private PlayerController playerScript;
-    private Vector3 startingPlayerPosition;
-    private Quaternion startingPlayerRotation;
-    private Vector3 startingCameraPosition;
-    private Quaternion startingCameraRotation;
+    public GameObject Player
+    {
+        get
+        {
+            return _player;
+        }
+        set
+        {
+            _player = value;
+        }
+    }
+
+    public Canvas UICanvas
+    {
+        get
+        {
+            return _UICanvas;
+        }
+        set
+        {
+            _UICanvas = value;
+        }
+    }
+
+    public Transform MainCamera
+    {
+        get
+        {
+            return _mainCamera;
+        }
+        set
+        {
+            _mainCamera = value;
+        }
+    }
 
     // Use this for initialization
     void Start () {
-        startingPlayerPosition = new Vector3(mainCamera.position.x, mainCamera.position.y, 0);
-        startingPlayerRotation = new Quaternion(mainCamera.rotation.x, mainCamera.rotation.y, mainCamera.rotation.z, mainCamera.rotation.w);
-        startingCameraPosition = new Vector3(mainCamera.position.x, mainCamera.position.y, mainCamera.position.z);
-        startingCameraRotation = new Quaternion(mainCamera.rotation.x, mainCamera.rotation.y, mainCamera.rotation.z, mainCamera.rotation.w);
-
-        SpawnPlayer();
+                
 	}
 	
 	// Spawn the player
-    void SpawnPlayer()
+    public void SpawnPlayer()
     {
-        GameObject instantiatedPlayer = Instantiate(player, startingPlayerPosition, startingPlayerRotation);
-        Canvas instantiatedCanvas = Instantiate(UICanvas);
-        Transform instantiatedCamera = Instantiate(mainCamera, startingCameraPosition, startingCameraRotation);
+        _startingPlayerPosition = new Vector3(_mainCamera.position.x, _mainCamera.position.y, 0);
+        _startingPlayerRotation = new Quaternion(_mainCamera.rotation.x, _mainCamera.rotation.y, _mainCamera.rotation.z, _mainCamera.rotation.w);
+        _startingCameraPosition = new Vector3(_mainCamera.position.x, _mainCamera.position.y, _mainCamera.position.z);
+        _startingCameraRotation = new Quaternion(_mainCamera.rotation.x, _mainCamera.rotation.y, _mainCamera.rotation.z, _mainCamera.rotation.w);
+
+        _instantiatedPlayer = Instantiate(_player, _startingPlayerPosition, _startingPlayerRotation);
+        Canvas instantiatedCanvas = Instantiate(_UICanvas);
+        Transform instantiatedCamera = Instantiate(_mainCamera, _startingCameraPosition, _startingCameraRotation);
 
         // Set up player
-        playerScript = instantiatedPlayer.GetComponent<PlayerController>();
-        playerScript.textScript = instantiatedCanvas.GetComponentInChildren<TextStuff>();            
+        _playerScript = _instantiatedPlayer.GetComponent<PlayerController>();
+        _playerScript.textScript = instantiatedCanvas.GetComponentInChildren<TextStuff>();            
 
         // Set up UI
 
         // Set up the camera
         instantiatedCamera.tag = "MainCamera";
-        cameraScript = instantiatedCamera.GetComponent<CameraController>();
-        cameraScript.player = instantiatedPlayer;
+        _cameraScript = instantiatedCamera.GetComponent<CameraController>();
+        _cameraScript.player = _instantiatedPlayer;
     }
 }
